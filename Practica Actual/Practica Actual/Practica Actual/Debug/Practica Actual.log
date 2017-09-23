@@ -1,3 +1,4 @@
 ﻿  main.cpp
+c:\users\mauricio\desktop\mautareas\2018-1\computación gráfica\lab\practicarepositorio\practica actual\practica actual\practica actual\main.cpp(42): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
   Practica Actual.vcxproj -> C:\Users\mauricio\Desktop\MauTareas\2018-1\Computación Gráfica\Lab\PracticaRepositorio\Practica Actual\Practica Actual\Debug\Practica Actual.exe
   Practica Actual.vcxproj -> C:\Users\mauricio\Desktop\MauTareas\2018-1\Computación Gráfica\Lab\PracticaRepositorio\Practica Actual\Practica Actual\Debug\Practica Actual.pdb (Partial PDB)
