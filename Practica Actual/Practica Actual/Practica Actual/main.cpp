@@ -50,6 +50,41 @@ GLfloat MarsDiffuse[] = { 0.8f, 0.4f, 0.1f, 1.0f };			// Marte
 GLfloat MarsSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
 GLfloat MarsShininess[] = { 50.0 };
 
+GLfloat VenusDiffuse[] = { 0.2f, 0.8f, 0.1f, 1.0f };			// Venus
+GLfloat VenusSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat VenusShininess[] = { 50.0 };
+
+GLfloat MerDiffuse[] = { 1.0f, 0.1f, 0.1f, 1.0f };			// Mercurio
+GLfloat MerSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat MerShininess[] = { 50.0 };
+
+GLfloat JuDiffuse[] = { 0.9f, 0.6f, 0.0f, 1.0f };			// Jupiter
+GLfloat JuSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat JuShininess[] = { 50.0 };
+
+GLfloat SaDiffuse[] = { 0.957f, 0.857f, 0.876f, 1.0f };			// Saturno
+GLfloat SaSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat SaShininess[] = { 50.0 };
+
+GLfloat UrDiffuse[] = { 0.0f, 0.8f, 0.1f, 1.0f };			// Urano
+GLfloat UrSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat UrShininess[] = { 50.0 };
+
+GLfloat NepDiffuse[] = { 1.0f, 0.1f, 0.1f, 1.0f };			// Neptuno
+GLfloat NepSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat NepShininess[] = { 50.0 };
+
+
+GLfloat LJDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };			// Lunas Jupiter
+GLfloat LJSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat LJShininess[] = { 50.0 };
+
+GLfloat LSDiffuse[] = { 0.0f, 1.0f, 0.9f, 1.0f };			// Lunas Saturno
+GLfloat LSSpecular[] = { 1.0, 0.5, 0.0, 1.0 };
+GLfloat LSShininess[] = { 50.0 };
+
+
+
 void InitGL(GLvoid)     // Inicializamos parametros
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);				// Negro de fondo
@@ -58,6 +93,11 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	glEnable(GL_DEPTH_TEST);							// Habilitamos Depth Testing
 	glDepthFunc(GL_LEQUAL);								// Tipo de Depth Testing a realizar
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT1);
+	glLightfv(GL_LIGHT1,GL_DIFFUSE,SunDiffuse);
+	glLightfv(GL_LIGHT1,GL_SPECULAR,SunSpecular);
+
 
 
 }
@@ -71,19 +111,24 @@ void display(void)   // Creamos la funcion donde se dibuja
 
 	glRotatef(sol, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
 	glColor3f(1.0, 1.0, 0.0);	//Sol amarillo
-	glutWireSphere(2, 50, 12);  //Draw Sun (radio,H,V);
+	glLightfv(GL_LIGHT1, GL_POSITION, SunPosition);
+	glDisable(GL_LIGHTING);
+	glutSolidSphere(2, 50, 12);  //Draw Sun (radio,H,V);
+	glEnable(GL_LIGHTING);
 	// Mercurio
 
 	glPushMatrix();
 		glColor3f(0.545,0.251,0.075);
 
 		//traslacion
-		glRotatef(45.0, 0.0, 0.0, 2.0);
 		glRotatef(mercurio, 0.0, -1.0, 0.0);
 		glPushMatrix();
 			glTranslatef(2.5,0.2,0.2);
-			glRotatef(mercurio, 0.0, 1.0, 0.0);	
-			glutWireSphere(0.3, 10, 10);  
+			glRotatef(mercurio, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, MerDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, MerSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, MerShininess);
+			glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 	glPopMatrix();
 
@@ -92,15 +137,17 @@ void display(void)   // Creamos la funcion donde se dibuja
 		glColor3f(0.957, 0.657, 0.376);
 
 		//traslacion
-		glRotatef(45.0, 0.0, 0.0, 1.0);
 		glRotatef(venus-2, 0.0, -1.0, 0.0);
 		glTranslatef(0.5, 0.0, 0.2);
 		
 		glPushMatrix();
 			glTranslatef(3.5, 0.2, 0.2);
 			glScalef(1.2, 1.2, 1.2);
-			glRotatef(venus, 0.0, 1.0, 0.0);	
-			glutWireSphere(0.3, 10, 10);  
+			glRotatef(venus, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, VenusDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, VenusSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, VenusShininess);
+			glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 		glPopMatrix();
 	glPopMatrix();
 
@@ -109,7 +156,6 @@ void display(void)   // Creamos la funcion donde se dibuja
 		glColor3f(0.245, 0.457, 0.975);
 
 		//traslacion
-		glRotatef(45.0, 2.0, 0.0, 0.0);
 		glRotatef(tierra-2, 0.0, -1.0, 0.0);
 		glTranslatef(0.5, 0.0, 0.2);
 		glPushMatrix();
@@ -118,7 +164,10 @@ void display(void)   // Creamos la funcion donde se dibuja
 			glScalef(1.6, 1.6, 1.6);
 			glPushMatrix();
 				glRotatef(tierra, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
-				glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+				glMaterialfv(GL_FRONT,GL_DIFFUSE ,EarthDiffuse );
+				glMaterialfv(GL_FRONT, GL_SPECULAR, EarthSpecular);
+				glMaterialfv(GL_FRONT, GL_SHININESS, EarthShininess);
+				glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 
 			//luna
@@ -130,7 +179,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 				//rotacion
 				glScalef(0.4, 0.4, 0.4);
 				glRotatef(luna+2, 0.0, 0.0, 1.0);	//El Sol gira sobre su eje
-				glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+				glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 			glPopMatrix();
 	glPopMatrix();
@@ -138,7 +187,6 @@ void display(void)   // Creamos la funcion donde se dibuja
 	//marte
 
 	glPushMatrix();
-		glRotatef(45.0, 2.0, 0.0, 4.0);
 		glColor3f(0.957, 0.057, 0.376);
 
 		//traslacion
@@ -149,15 +197,17 @@ void display(void)   // Creamos la funcion donde se dibuja
 			glTranslatef(9.0, 0.2, 0.2);
 			glScalef(1.6, 1.6, 1.6);
 			glRotatef(marte, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
-			glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
-			glPopMatrix();
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, MarsDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, MarsSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, MarsShininess);
+			glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+		glPopMatrix();
 	glPopMatrix();
 
 
 	//Jupiter
 
 	glPushMatrix();
-		glRotatef(45.0, -8.0, 0.0, -1.0);
 		glColor3f(0.9, 0.6, 0.0);
 		//traslacion
 		glRotatef(jupiter, 0.0, -1.0, 0.0);
@@ -166,10 +216,16 @@ void display(void)   // Creamos la funcion donde se dibuja
 			glTranslatef(12.0, 0.2, 0.2);
 			glScalef(2.4, 2.4, 2.4);
 			glRotatef(jupiter, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
-			glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, JuDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, JuSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, JuShininess);
+			glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 
 
 			//luna1
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, LJDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, LJSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, LJShininess);
 			glPushMatrix();
 				glColor3f(1.0, 1.0, 1.0);
 				//traslacion
@@ -178,7 +234,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 				//rotacion
 				glScalef(0.4, 0.4, 0.4);
 				glRotatef(luna1, 0.0, 0.0, 1.0);	//El Sol gira sobre su eje
-				glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+				glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 			//luna2
 			glPushMatrix();
@@ -189,7 +245,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 				//rotacion
 				glScalef(0.4, 0.4, 0.4);
 				glRotatef(luna2, 0.0, 0.0, 1.0);	//El Sol gira sobre su eje
-				glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+				glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 
 			//luna3
@@ -201,7 +257,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 				//rotacion
 				glScalef(0.4, 0.4, 0.4);
 				glRotatef(luna3, 0.0, 0.0, 1.0);	//El Sol gira sobre su eje
-				glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+				glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 			glPopMatrix();
 
@@ -215,15 +271,21 @@ void display(void)   // Creamos la funcion donde se dibuja
 		glColor3f(0.957, 0.857, 0.876);
 
 		//traslacion
-		glRotatef(45.0, -6.0, 0.0, -1.0);
 		glRotatef(saturno, 0.0, 1.0, 0.0);
 		glTranslatef(0.5, 0.0, 0.2);
 		glPushMatrix();
 			glTranslatef(15.0, 0.2, 0.2);
 			glScalef(1.9, 1.9, 1.9);
 			glRotatef(saturno, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
-			glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, SaDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, SaSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, SaShininess);
+			glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glutWireTorus(0.11, 0.7, 10, 10);
+
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, LSDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, LSSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, LSShininess);
 
 			//luna1
 			glPushMatrix();
@@ -234,7 +296,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 				//rotacion
 				glScalef(0.4, 0.4, 0.4);
 				glRotatef(luna1 + 2, 0.0, 0.0, 1.0);	//El Sol gira sobre su eje
-				glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+				glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 			//luna2
 			glPushMatrix();
@@ -245,7 +307,7 @@ void display(void)   // Creamos la funcion donde se dibuja
 				//rotacion
 				glScalef(0.4, 0.4, 0.4);
 				glRotatef(luna2 + 2, 0.0, 0.0, 1.0);	//El Sol gira sobre su eje
-				glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+				glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 			glPopMatrix();
 
 		glPopMatrix();
@@ -254,18 +316,20 @@ void display(void)   // Creamos la funcion donde se dibuja
 
 	//Urano
 
-	glPushMatrix();
 
+	glPushMatrix();
 		glColor3f(0.0, 0.8, 1.0);
 		//traslacion
-		glRotatef(45.0, 0.0, 0.0, -2.0);
 		glRotatef(urano, 0.0, -1.0, 0.0);
 		glTranslatef(0.5, 0.0, 0.2);
 		glPushMatrix();
 			glTranslatef(18.0, 0.2, 0.2);
 			glScalef(1.6, 1.6, 1.6);
 			glRotatef(urano, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
-			glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, UrDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, UrSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, UrShininess);
+			glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 		glPopMatrix();
 	glPopMatrix();
 
@@ -273,17 +337,18 @@ void display(void)   // Creamos la funcion donde se dibuja
 	//neptuno
 
 	glPushMatrix();
-
 		glColor3f(0.0, 0.6, 1.0);
 		//traslacion
-		glRotatef(45.0, -3.0, 0.0, 0.0);
-		glRotatef(neptuno, 0.0, -1.0, 0.0);
+		glRotatef(neptuno, 0.0, 1.0, 0.0);
 		glTranslatef(0.5, 0.0, 0.2);
 		glPushMatrix();
 			glTranslatef(21.0, 0.2, 0.2);
 			glScalef(1.6, 1.6, 1.6);
 			glRotatef(neptuno, 0.0, 1.0, 0.0);	//El Sol gira sobre su eje
-			glutWireSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, NepDiffuse);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, NepSpecular);
+			glMaterialfv(GL_FRONT, GL_SHININESS, NepShininess);
+			glutSolidSphere(0.3, 10, 10);  //Draw Sun (radio,H,V);
 		glPopMatrix();
 	glPopMatrix();
 
@@ -410,13 +475,13 @@ int main(int argc, char** argv)   // Main Function
 {
 	glutInit(&argc, argv); // Inicializamos OpenGL
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
-	glutInitWindowSize(500, 500);	// TamaÃ±o de la Ventana
+	glutInitWindowSize(500, 500);	// Tamaño de la Ventana
 	glutInitWindowPosition(20, 60);	//Posicion de la Ventana
 	glutCreateWindow("Practica 6"); // Nombre de la Ventana
 	InitGL();						// Parametros iniciales de la aplicacion
-	glutDisplayFunc(display);  //Indicamos a Glut funciÃ³n de dibujo
-	glutReshapeFunc(reshape);	//Indicamos a Glut funciÃ³n en caso de cambio de tamano
-	glutKeyboardFunc(keyboard);	//Indicamos a Glut funciÃ³n de manejo de teclado
+	glutDisplayFunc(display);  //Indicamos a Glut función de dibujo
+	glutReshapeFunc(reshape);	//Indicamos a Glut función en caso de cambio de tamano
+	glutKeyboardFunc(keyboard);	//Indicamos a Glut función de manejo de teclado
 	glutSpecialFunc(arrow_keys);	//Otras
 	glutIdleFunc(animacion);
 	glutMainLoop();          // 
