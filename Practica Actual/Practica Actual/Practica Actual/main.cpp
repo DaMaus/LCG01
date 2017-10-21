@@ -6,6 +6,22 @@
 //*************			Visual Studio 2017				******//
 //************************************************************//
 #include "texture.h"
+#include "figuras.h"
+#include "Camera.h"
+
+/*********************/
+int w = 500, h = 500;
+int frame = 0, time, timebase = 0;
+int deltaTime = 0;
+char s[30];
+
+
+CCamera objCamera;	//Create objet Camera
+
+GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW) 
+
+int font = (int)GLUT_BITMAP_HELVETICA_18;
+/*************/
 
 float pos_camX = 0, pos_camY = -5, pos_camZ = -20;
 int eye_camX = 0, eye_camY = 0.0, eye_camZ = 0;
@@ -24,8 +40,6 @@ CTexture t_madera2;
 CTexture t_ventana;
 CTexture t_puerta;
 
-
-int font = (int)GLUT_BITMAP_TIMES_ROMAN_24;
 
 
 
@@ -69,6 +83,12 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	t_puerta.LoadTGA("puerta.tga");
 	t_puerta.BuildGLTexture();
 	t_puerta.ReleaseImage();
+
+
+	//END NEW//////////////////////////////
+
+	objCamera.Position_Camera(0, 2.5f, 3, 0, 2.5f, 0, 0, 1, 0);
+
 
 }
 
@@ -122,10 +142,12 @@ void prisma(GLuint textura1, GLuint textura2)  //Funcion creacion prisma
 
 	glBegin(GL_POLYGON);	//Back
 	glNormal3f(0.0f, 0.0f, -1.0f);
-	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[6]);
-	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[5]);
 	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[3]);
-	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[2]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[5]);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[6]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[2]);
+	
+	
 	glEnd();
 
 	glBegin(GL_POLYGON);  //Left
@@ -163,11 +185,15 @@ void display(void)   // Creamos la funcion donde se dibuja
 
 	glPushMatrix();
 	glTranslatef(pos_camX, pos_camY, pos_camZ);
-	glRotatef(eye_camX, 1.0, 0.0, 0.0);
-	glRotatef(eye_camY, 0.0, 1.0, 0.0);
-	glRotatef(eye_camZ, 0.0, 0.0, 1.0);
+	glRotatef(g_lookupdown, 1.0f, 0, 0);
+
+	gluLookAt(objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z,
+		objCamera.mView.x, objCamera.mView.y, objCamera.mView.z,
+		objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 
 	
+
+
 
 	// Base de la casa
 
@@ -218,75 +244,90 @@ void display(void)   // Creamos la funcion donde se dibuja
 
 
 	glPushMatrix();		//PArte frontal del primer piso parte superior
-	glTranslatef(0.0, 5.0, 5.5);
-	glScalef(10.0, 3.0, 1.0);
+	glTranslatef(0.0, 5.0, 6.0);
+	glScalef(10.0, 3.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//PArte frontal del segundo piso parte superior
-	glTranslatef(0.0, 8.5, 5.5);
-	glScalef(10.0, 3.0, 1.0);
+	glTranslatef(0.0, 8.5, 6.0);
+	glScalef(10.0, 3.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//PArte frontal del primer piso parte izquierda 1
-	glTranslatef(-4.5, 2.0, 5.5);
-	glScalef(1.0, 3.0, 1.0);
+	glTranslatef(-4.5, 2.0, 6.0);
+	glScalef(1.0, 3.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//PArte frontal del primer piso parte izquierda 2
-	glTranslatef(-1.5, 2.0, 5.5);
-	glScalef(1.0, 3.0, 1.0);
+	glTranslatef(-1.5, 2.0, 6.0);
+	glScalef(1.0, 3.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//PArte frontal del primer piso parte izquierda 3
-	glTranslatef(-3.0, 1.0, 5.5);
-	glScalef(2.0, 1.0, 1.0);
+	glTranslatef(-3.0, 1.0, 6.0);
+	glScalef(2.0, 1.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//PArte frontal del primer piso parte derecha 1
-	glTranslatef(4.5, 2.0, 5.5);
-	glScalef(1.0, 3.0, 1.0);
+	glTranslatef(4.5, 2.0, 6.0);
+	glScalef(1.0, 3.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//PArte frontal del primer piso parte derecha 2
-	glTranslatef(1.5, 2.0, 5.5);
-	glScalef(1.0, 3.0, 1.0);
+	glTranslatef(1.5, 2.0, 6.0);
+	glScalef(1.0, 3.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//PArte frontal del primer piso parte derecha 3
-	glTranslatef(3.0, 1.0, 5.5);
-	glScalef(2.0, 1.0, 1.0);
+	glTranslatef(3.0, 1.0, 6.0);
+	glScalef(2.0, 1.0, 0.1);
 	prisma(t_madera.GLindex, t_madera.GLindex);
 	glPopMatrix();
 
+	/*
+	glPushMatrix();
+	glColor3f(0.0, 0.3, 1.0);
+	glTranslatef(1.1, 7.0, 0.0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	esfera.esfera(0.3, 30, 50, 12);
+	glDisable(GL_ALPHA_TEST);
+	glPopMatrix();*/
 
 	glPushMatrix();		//ventana izquierda
-	glTranslatef(-3.0, 2.5, 5.5);
-	glScalef(2.0, 2.0, 1.0);
+	glTranslatef(-3.0, 2.5, 6.0);
+	glScalef(2.0, 2.0, 0.001);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
 	prisma(t_ventana.GLindex, t_ventana.GLindex);
+	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
 	glPushMatrix();		//ventana izquierda
-	glTranslatef(3.0, 2.5, 5.5);
-	glScalef(2.0, 2.0, 1.0);
+	glTranslatef(3.0, 2.5, 6.0);
+	glScalef(2.0, 2.0, 0.001);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
 	prisma(t_ventana.GLindex, t_ventana.GLindex);
+	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
 	glPushMatrix();		//Puerta
-	glTranslatef(0.0, 2.0, 5.5);
-	glScalef(2.0, 3.0, 1.0);
+	glTranslatef(0.0, 2.0, 6.0);
+	glScalef(2.0, 3.0, 0.1);
 	prisma(t_puerta.GLindex, t_puerta.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();		//Puerta arriba
-	glTranslatef(0.0, 8.5, 5.6);
-	glScalef(2.0, 3.0, 1.0);
+	glTranslatef(0.0, 8.5, 6.1);
+	glScalef(2.0, 3.0, 0.1);
 	prisma(t_puerta.GLindex, t_puerta.GLindex);
 	glPopMatrix();
 
@@ -699,8 +740,9 @@ void display(void)   // Creamos la funcion donde se dibuja
 	glPopMatrix();
 
 	glDisable(GL_TEXTURE_2D);
-	renderBitmapCharacter(-11, 12.0, -14.0, (void *)font, "Practica 8");
-	renderBitmapCharacter(-11, 10.5, -14, (void *)font, "Texturas");
+	renderBitmapCharacter(-11, 12.0, -14.0, (void *)font, "Practica 9");
+	renderBitmapCharacter(-11, 10.5, -14.0, (void *)font, "Texturas y transparencia");
+	renderBitmapCharacter(-11, 8.5, -14.0, (void *)font, "Hernández Gómez Mauricio Alejandro");
 	glEnable(GL_TEXTURE_2D);
 
 	glutSwapBuffers();
@@ -737,27 +779,25 @@ void animacion()
 void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 {
 	switch (key) {
+
 	case 'w':   //Movimientos de camara
 	case 'W':
-		pos_camZ += 0.5f;
-		//eye_camZ -= 0.5f;
+		objCamera.Move_Camera(CAMERASPEED + 0.2);
 		break;
 
 	case 's':
 	case 'S':
-		pos_camZ -= 0.5f;
-		//eye_camZ += 0.5f;
+		objCamera.Move_Camera(-(CAMERASPEED + 0.2));
 		break;
 
 	case 'a':
 	case 'A':
-		pos_camX += 0.5f;
-		//eye_camX -= 0.5f;
+		objCamera.Strafe_Camera(-(CAMERASPEED + 0.4));
 		break;
+
 	case 'd':
 	case 'D':
-		pos_camX -= 0.5f;
-		//eye_camX += 0.5f;
+		objCamera.Strafe_Camera(CAMERASPEED + 0.4);
 		break;
 
 	case 27:        // Cuando Esc es presionado...
@@ -766,6 +806,7 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 	default:        // Cualquier otra
 		break;
 	}
+
 	glutPostRedisplay();
 }
 
@@ -773,30 +814,29 @@ void arrow_keys(int a_keys, int x, int y)  // Funcion para manejo de teclas espe
 {
 	switch (a_keys) {
 	case GLUT_KEY_PAGE_UP:
-		pos_camY -= 0.5f;
-		//eye_camY += 0.5f;
+		objCamera.UpDown_Camera(CAMERASPEED);
 		break;
 
 	case GLUT_KEY_PAGE_DOWN:
-		pos_camY += 0.5f;
-		//eye_camY -= 0.5f;
+		objCamera.UpDown_Camera(-CAMERASPEED);
 		break;
 
 	case GLUT_KEY_UP:     // Presionamos tecla ARRIBA...
-		eye_camX = (eye_camX - 15) % 360;
+		g_lookupdown -= 1.0f;
 		break;
 
 	case GLUT_KEY_DOWN:               // Presionamos tecla ABAJO...
-		eye_camX = (eye_camX + 15) % 360;
+		g_lookupdown += 1.0f;
 		break;
 
 	case GLUT_KEY_LEFT:
-		eye_camY = (eye_camY - 15) % 360;
+		objCamera.Rotate_View(-CAMERASPEED);
 		break;
 
 	case GLUT_KEY_RIGHT:
-		eye_camY = (eye_camY + 15) % 360;
+		objCamera.Rotate_View(CAMERASPEED);
 		break;
+
 	default:
 		break;
 	}
@@ -810,7 +850,7 @@ int main(int argc, char** argv)   // Main Function
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
 	glutInitWindowSize(5000, 5000);	// Tamaño de la Ventana
 	glutInitWindowPosition(0, 0);	//Posicion de la Ventana
-	glutCreateWindow("Practica 8"); // Nombre de la Ventana
+	glutCreateWindow("Practica 9"); // Nombre de la Ventana
 									//glutFullScreen     ( );         // Full Screen
 	InitGL();						// Parametros iniciales de la aplicacion
 	glutDisplayFunc(display);  //Indicamos a Glut función de dibujo
