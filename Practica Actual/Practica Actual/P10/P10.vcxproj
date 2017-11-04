@@ -122,9 +122,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="brazo.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="figuras.cpp" />
-    <ClCompile Include="main_prac10new.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
