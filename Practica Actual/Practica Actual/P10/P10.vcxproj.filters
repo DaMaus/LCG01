@@ -24,7 +24,7 @@
     <ClCompile Include="figuras.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="brazo.cpp">
+    <ClCompile Include="main_prac12.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

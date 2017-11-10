@@ -1,13 +1,3 @@
-﻿  texture.cpp
-  figuras.cpp
-c:\users\mauricio\desktop\mautareas\2018-1\computación gráfica\lab\practicarepositorio\practica actual\practica actual\p10\figuras.cpp(20): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
-c:\users\mauricio\desktop\mautareas\2018-1\computación gráfica\lab\practicarepositorio\practica actual\practica actual\p10\figuras.cpp(99): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
-c:\users\mauricio\desktop\mautareas\2018-1\computación gráfica\lab\practicarepositorio\practica actual\practica actual\p10\figuras.cpp(152): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
-c:\users\mauricio\desktop\mautareas\2018-1\computación gráfica\lab\practicarepositorio\practica actual\practica actual\p10\figuras.cpp(361): warning C4101: 'theta': variable local sin referencia
-c:\users\mauricio\desktop\mautareas\2018-1\computación gráfica\lab\practicarepositorio\practica actual\practica actual\p10\figuras.cpp(361): warning C4101: 'phi': variable local sin referencia
-c:\users\mauricio\desktop\mautareas\2018-1\computación gráfica\lab\practicarepositorio\practica actual\practica actual\p10\figuras.cpp(588): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
-  Camera.cpp
-  brazo.cpp
-  Generando código...
-  P10.vcxproj -> C:\Users\mauricio\Desktop\MauTareas\2018-1\Computación Gráfica\Lab\PracticaRepositorio\Practica Actual\Practica Actual\Debug\P10.exe
-  P10.vcxproj -> C:\Users\mauricio\Desktop\MauTareas\2018-1\Computación Gráfica\Lab\PracticaRepositorio\Practica Actual\Practica Actual\Debug\P10.pdb (Partial PDB)
+﻿  main_prac12.cpp
+  P10.vcxproj -> C:\Users\mauricio\Desktop\12\P10\Debug\P10.exe
+  P10.vcxproj -> C:\Users\mauricio\Desktop\12\P10\Debug\P10.pdb (Partial PDB)
